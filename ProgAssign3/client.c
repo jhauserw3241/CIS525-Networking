@@ -78,11 +78,11 @@ int main(int argc, char *argv[])
 
 	printf("The server port to connect to is: %d\n", serv_port);
 
-	/*// Set up the address of the server to be contacted.
+	// Set up the address of the server to be contacted.
 	memset((char *) &serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family			= AF_INET;
-	serv_addr.sin_addr.s_addr	= inet_addr(SERV_HOST_ADDR);
-	serv_addr.sin_port				= htons(SERV_TCP_PORT);
+	serv_addr.sin_addr.s_addr	= inet_addr(serv_ip);
+	serv_addr.sin_port				= htons(serv_port);
 
 	// Create a socket (an endpoint for communication).
 	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 
 	printf("You are now connected to the server.\n");
 
-	// Allow the user to chat with other users.
+	/*// Allow the user to chat with other users.
 	for(;;) {
 		working_fd_set = master_fd_set;
 
