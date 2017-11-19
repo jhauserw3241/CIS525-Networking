@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include <netdb.h>
 #include "inet.h"
+#include "shared.c"
 
 #define IP_ADDR_MAX 50
 #define MSG_MAX 1000
@@ -73,10 +74,8 @@ int main(int argc, char *argv[])
 	// Get the website port number
 	if(argc == 3)
 	{
-		serv_port = str_to_int(argv[2]);
+		
 	}
-
-	printf("The server port to connect to is: %d\n", serv_port);
 
 	/*// Set up the address of the server to be contacted.
 	memset((char *) &serv_addr, 0, sizeof(serv_addr));
