@@ -4,14 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
 #include <unistd.h>
 #include <signal.h>
-#include <errno.h>
-#include <stdbool.h>
 #include <netdb.h>
 #include <ctype.h>
-#include "inet.h"
+#include <arpa/inet.h>
 
 #define IP_ADDR_MAX 50
 #define MSG_MAX 1000
