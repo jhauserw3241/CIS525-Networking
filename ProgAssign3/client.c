@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 
 		memset(temp, 0, MSG_MAX);
 	}
-	printf("Content: %s\n", content);
+//	printf("Content: %s\n", content);
 
 	// Check status line
 	char status[MSG_MAX];
@@ -149,7 +149,16 @@ int main(int argc, char *argv[])
 	}
 	// Handle OK status
 	else {
-		printf("Add code to print out the page here\n");
+		char content_no_header[content_size];
+		memset(content_no_header, 0, content_size);
+		char *loc_header_end = strstr(content, "\r\n\r\n");
+		int pos_end_header = (loc_header_end - content) + 4;
+		for(int k = pos_end_header; k < content_size; k++)
+		{
+			content_no_header[k - pos_end_header] = content[k];
+		}
+
+		printf("%s", content_no_header);
 	}
 
 	printf("---------------------------END--------------------------\n");
