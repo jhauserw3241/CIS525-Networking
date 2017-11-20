@@ -133,7 +133,8 @@ int main(int argc, char *argv[])
 	snprintf(status, statusSize, "%s", msg);
 	
 	// Handle error status
-	if(strstr(status, " 200 OK") == NULL)
+	if((strcmp(status, "HTTP/1.0 200 OK") != 0) &&
+		 (strcmp(status, "HTTP/1.1 200 OK") != 0))
 	{
 		printf("%s\n", status);
 	}
