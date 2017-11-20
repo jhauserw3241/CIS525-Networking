@@ -111,12 +111,21 @@ int main(int argc, char *argv[])
 	printf("--------------------------START-------------------------\n");
 
 	// Handle message from server
-	memset(msg, 0, MSG_MAX);
-	nread = read(serv_fd, msg, MSG_MAX);
-	if(nread <= 0) {
-		perror("Server didn't respond.");
-		exit(1);
+	int content_size;
+	char *content = malloc(content_size);
+
+	char temp[MSG_MAX];
+	memset(temp, 0, MSG_MAX);
+	while(read(serv_fd, temp, MSG_MAX) != 0)
+	{
+		content_size = content_size + MSG_MAX;
+		char *content_switch = realloc(content, content_size);
+		strcpy(content_switch, content);
+		strcat(content_switch, temp);
+
+		memset(temp, 0, MSG_MAX);
 	}
+	printf("Content: %s\n", content);
 
 	// Check status line
 	char status[MSG_MAX];
@@ -124,13 +133,13 @@ int main(int argc, char *argv[])
 	int statusSize = -1;
 	for(int j = 0; j < MSG_MAX; j++)
 	{
-		if(msg[j] == '\n')
+		if(content[j] == '\n')
 		{
 			statusSize = j;
 			break;
 		}
 	}
-	snprintf(status, statusSize, "%s", msg);
+	snprintf(status, statusSize, "%s", content);
 	
 	// Handle error status
 	if((strcmp(status, "HTTP/1.0 200 OK") != 0) &&
