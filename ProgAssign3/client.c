@@ -24,7 +24,6 @@ int	serv_fd;
 int main(int argc, char *argv[])
 {
 	struct sockaddr_in serv_addr;
-	char msg[MSG_MAX];
 	int interact_status;
 	int nread; /* number of characters */
 	char serv_ip[IP_ADDR_MAX];
@@ -100,15 +99,12 @@ int main(int argc, char *argv[])
 		return(1);
 	}
 
-	printf("Connected to %s.\n", hp->h_name);
+	printf("Connected to %s.\n\n", hp->h_name);
 
 	char request[MSG_MAX + 4];
 	memset(request, 0, MSG_MAX + 4);
 	snprintf(request, MSG_MAX + 4, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", page, argv[1]);
 	write(serv_fd, request, MSG_MAX);
-	printf("The request is: %s\n", request);
-
-	printf("--------------------------START-------------------------\n");
 
 	// Handle message from server
 	int content_size;
@@ -125,7 +121,6 @@ int main(int argc, char *argv[])
 
 		memset(temp, 0, MSG_MAX);
 	}
-//	printf("Content: %s\n", content);
 
 	// Check status line
 	char status[MSG_MAX];
@@ -158,11 +153,9 @@ int main(int argc, char *argv[])
 			content_no_header[k - pos_end_header] = content[k];
 		}
 
-		printf("%s", content_no_header);
+		printf("%s\n", content_no_header);
 	}
 
-	printf("---------------------------END--------------------------\n");
-	
 	close(serv_fd);
 
 	return(0);	// Exit if response is 4.
