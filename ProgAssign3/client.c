@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 	// Verify the correct number of arguments were provided
 	if((argc < 2) || (argc > 3))
 	{
-		perror("There should only be two arguments: the website name and the port number (optional).");
+		printf("There should only be two arguments: the website name and the port number (optional).\n");
 		return(1);
 	}
 
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 	struct hostent *hp = gethostbyname(argv[1]);
 	if(hp == NULL)
 	{
-		perror("gethostbyname() failed");
+		printf("gethostbyname() failed\n");
 		return(1);
 	}
 
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 		serv_port = str_to_int(argv[2]);
 		if(serv_port < 0)
 		{
-			perror("Invalid port number");
+			printf("Invalid port number\n");
 			return(1);
 		}
 	}
@@ -86,13 +86,13 @@ int main(int argc, char *argv[])
 
 	// Create a socket (an endpoint for communication).
 	if((serv_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-	  perror("client: can't open stream socket");
+	  printf("client: can't open stream socket\n");
 		return(1);
 	}
 
 	// Connect to the server.
 	if(connect(serv_fd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
-	  perror("client: can't connect to the server");
+	  printf("client: can't connect to the server\n");
 		return(1);
 	}
 
