@@ -10,7 +10,7 @@
 #include <ctype.h>
 #include <arpa/inet.h>
 
-#define IP_ADDR_MAX 50
+#define IP_ADDR_MAX 150
 #define MSG_MAX 1000
 
 void exit_shell(int signum);
@@ -36,6 +36,12 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, exit_shell);
 
+	if(strlen(argv[1]) > 100)
+	{
+		printf("Your website address is too long. There is a maximum of 100 characters.\n");
+		return(1);
+	}
+
 	// Get the website ip address
 	struct hostent *hp = gethostbyname(argv[1]);
 	if(hp == NULL)
@@ -57,9 +63,9 @@ int main(int argc, char *argv[])
 	if(argc == 3)
 	{
 		serv_port = str_to_int(argv[2]);
-		if(serv_port < 0)
+		if((serv_port < 0) || (serv_port >= 65535))
 		{
-			printf("Invalid port number\n");
+			printf("That port number is not allowed. You need to choose a port number between 0 and 65534.\n");
 			return(1);
 		}
 	}
@@ -100,7 +106,7 @@ int main(int argc, char *argv[])
 
 	char request[MSG_MAX + 4];
 	memset(request, 0, MSG_MAX + 4);
-	snprintf(request, MSG_MAX + 4, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", page, argv[1]);
+	snprintf(request, MSG_MAX + 4, "GET %s HTTP/1.0\r\n\r\n", page);
 	write(serv_fd, request, MSG_MAX);
 
 	// Handle message from server
